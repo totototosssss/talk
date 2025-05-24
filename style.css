@@ -1,1 +1,267 @@
+:root {
+    --primary-color: #007bff; /* 明るい青 */
+    --secondary-color: #00c300; /* LINE風の緑 */
+    --accent-color: #ffc107; /* アクセントの黄色 */
+    --text-color: #333;
+    --text-light-color: #f8f9fa;
+    --bg-color: #f0f2f5; /* 背景色 (LINEのトークルーム背景に似た色) */
+    --surface-color: #ffffff; /* カードなどの表面色 */
+    --border-color: #dee2e6;
+    --correct-color: #28a745;
+    --wrong-color: #dc3545;
+    --font-family-base: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+    --font-family-title: 'Roboto', 'Noto Sans JP', sans-serif;
+    --border-radius: 12px;
+    --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
 
+body {
+    font-family: var(--font-family-base);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 上寄せ */
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 700px; /* 少し広めに */
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden; /* 角丸を維持 */
+}
+
+.quiz-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light-color);
+    padding: 25px 30px;
+    text-align: center;
+}
+
+.quiz-header h1 {
+    font-family: var(--font-family-title);
+    font-size: 2.2em;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.progress-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    height: 10px;
+    margin-bottom: 8px;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-text {
+    font-size: 0.9em;
+    margin: 0;
+}
+
+
+.quiz-content, .result-section {
+    padding: 30px;
+}
+
+.message-container {
+    display: flex;
+    justify-content: center; /* 吹き出しを中央に（親要素で） */
+    margin-bottom: 25px;
+}
+
+.message-bubble {
+    background-color: #e6ffde; /* LINEの自分の吹き出し風 */
+    color: #202020;
+    padding: 15px 20px;
+    border-radius: var(--border-radius) var(--border-radius) 0 var(--border-radius); /* 左下だけ角丸なし */
+    display: inline-block;
+    max-width: 90%;
+    text-align: left;
+    white-space: pre-wrap; /* メッセージ内の改行を反映 */
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #c8e6c9;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.choices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* レスポンシブなグリッド */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.choices-grid button {
+    background-color: var(--surface-color);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+}
+
+.choices-grid button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: var(--text-light-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.choices-grid button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.choices-grid button.correct {
+    background-color: var(--correct-color);
+    border-color: var(--correct-color);
+    color: var(--text-light-color);
+    animation: pulse 0.5s;
+}
+
+.choices-grid button.wrong {
+    background-color: var(--wrong-color);
+    border-color: var(--wrong-color);
+    color: var(--text-light-color);
+    opacity: 0.8;
+}
+
+.choices-grid button.reveal-correct { /* 未選択だが正解だった選択肢 */
+    background-color: var(--surface-color); /* 元の色に戻すか、薄い緑など */
+    border: 2px solid var(--correct-color);
+    color: var(--correct-color);
+    box-shadow: 0 0 10px var(--correct-color); /* 正解を強調 */
+}
+
+
+.feedback-container {
+    min-height: 2em; /* メッセージがないときも高さを確保 */
+    margin-top: 20px;
+    text-align: center;
+}
+
+#feedback-text {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+#feedback-text.correct { color: var(--correct-color); }
+#feedback-text.wrong { color: var(--wrong-color); }
+
+
+.action-button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--text-light-color);
+    font-family: var(--font-family-title);
+    padding: 12px 30px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 20px;
+}
+
+.action-button:hover {
+    background-color: #009c00; /* 少し濃い緑 */
+    transform: translateY(-1px);
+}
+.action-button:active {
+    transform: translateY(0px);
+}
+
+
+.result-section h2 {
+    font-family: var(--font-family-title);
+    color: var(--primary-color);
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.score-card {
+    background-color: #e9ecef;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.score-card p {
+    margin: 8px 0;
+    font-size: 1.2em;
+}
+.score-card .final-score {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.score-card .score-percentage {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.app-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    color: #777;
+    background-color: #e9ecef; /* ヘッダーと少し合わせる */
+    border-top: 1px solid var(--border-color);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    .quiz-header h1 {
+        font-size: 1.8em;
+    }
+    .quiz-content, .result-section {
+        padding: 20px;
+    }
+    .message-bubble {
+        font-size: 1em;
+    }
+    .choices-grid {
+        grid-template-columns: 1fr; /* スマホでは1列に */
+    }
+    .choices-grid button {
+        font-size: 0.95em;
+        padding: 12px;
+    }
+    .action-button {
+        font-size: 1em;
+        padding: 10px 25px;
+    }
+}
