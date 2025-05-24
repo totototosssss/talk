@@ -155,62 +155,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 結果表示 ---
+// --- 結果表示 (ここを書き換えます) ---
     function showResults() {
         quizAreaElement.style.display = 'none';
         resultAreaElement.style.display = 'block'; 
         
-        // Trigger CSS animation for result card (it's set to run on display:block via keyframes)
         const resultCard = document.querySelector('.result-card');
-        if(resultCard) { // Ensure animation plays if it was reset
-            resultCard.style.animation = 'none'; // Reset animation
+        if(resultCard) { 
+            resultCard.style.animation = 'none'; 
             resultCard.offsetHeight; /* trigger reflow */
-            resultCard.style.animation = ''; // Re-apply animation from CSS
+            resultCard.style.animation = ''; 
         }
         
         const totalAnswered = currentQuizSet.length;
         totalQuestionsOnResultElement.textContent = totalAnswered;
 
-        let rank = '';
-        let rankTitle = '';
-        let message = '';
-        let iconClass = '';
-        const percentage = totalAnswered > 0 ? (score / totalAnswered) * 100 : 0;
+        let rank = ''; // CSSクラス制御用 (splus, s, aplus, a, bplus, b, c, d)
+        let rankTitle = ''; // 画面に表示される称号
+        let message = '';   // 画面に表示されるメッセージ
+        let iconClass = ''; // Font Awesome アイコンクラス
+        const percentage = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
 
         if (score === totalAnswered && totalAnswered > 0) { 
-            rank = 's'; rankTitle = "トーク神 降臨！";
-            message = "全問正解！あなたは全てを見通す千里眼の持ち主！";
-            iconClass = 'fas fa-crown'; 
+            rank = 'splus'; // Perfect Score
+            rankTitle = "中毒お疲れ🤡"; // ご要望の煽りタイトル
+            message = "全問正解…さては、このトーク履歴と共に生きてます？その情熱、別の方向にも活かせるかも…しれませんねぇ？";
+            iconClass = 'fas fa-ghost'; // 煽り感を増すためにゴーストアイコンなど（お好みで fas fa-crown も可）
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
-                     confetti({ particleCount: 250, spread: 180, origin: { y: 0.25 }, angle: 270, drift: 0.1, gravity: 0.7, zIndex: 10000, scalar: 1.3, ticks: 300 });
-                     confetti({ particleCount: 200, spread: 160, origin: { y: 0.35 }, zIndex: 10000, ticks: 300 });
+                     // 控えめだけど皮肉っぽい紙吹雪？あるいは派手なままか。
+                     confetti({ particleCount: 150, spread: 120, origin: { y: 0.4 }, angle: randomRange(45, 135), drift: randomRange(-0.1, 0.1), scalar: randomRange(0.7, 1.1), zIndex: 10000, ticks: 250, colors: ['#FFD700', '#FF69B4', '#8A2BE2'] }); // 金、ピンク、紫など派手目
+                     confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 }, angle: randomRange(225, 315), drift: randomRange(-0.1, 0.1), scalar: randomRange(0.6, 1.0), zIndex: 10000, ticks: 200, colors: ['#000000', '#4B0082', '#FF0000'] }); // 黒、濃紫、赤などダークな煽り
                 }, 700);
             }
-        } else if (percentage >= 90) {
-            rank = 'a'; rankTitle = "真のトークマスター";
-            message = "お見事！その洞察力、まさに達人の域です！";
-            iconClass = 'fas fa-medal';
-        } else if (percentage >= 80) {
-            rank = 'a'; rankTitle = "トークマスター";
-            message = "お見事！その洞察力、まさに達人の域です！";
-            iconClass = 'fas fa-medal';
-        } else if (percentage >= 60) {
-            rank = 'b'; rankTitle = "トークエキスパート";
-            message = "素晴らしい！あと一歩でマスターの称号が…！";
-            iconClass = 'fas fa-star';
-        } else if (percentage >= 40) {
-            rank = 'c'; rankTitle = "トークチャレンジャー";
-            message = "なかなかのセンス！継続は力なり、です！";
-            iconClass = 'fas fa-face-grin-stars';
-        } else if (percentage >= 20) {
-            rank = 'd'; rankTitle = "トーク見習い";
-            message = "頑張りました！次はもっと多くの発言を見抜こう！";
-            iconClass = 'fas fa-face-smile-beam';
-        } else {
-            rank = 'f'; rankTitle = "トークの卵";
-            message = "結果はちょっぴり残念…でも、挑戦する心が大切！";
-            iconClass = 'fas fa-egg';
+        } else if (percentage >= 90) { // 90-99%
+            rank = 's'; 
+            rankTitle = "トーク界の覇者";
+            message = "ほぼ完璧！あなたの前では、どんな些細な発言も見逃されませんね。まさに神業！";
+            iconClass = 'fas fa-dragon'; // 龍や神話生物など
+        } else if (percentage >= 80) { // 80-89%
+            rank = 'aplus'; 
+            rankTitle = "超絶技巧リスナー";
+            message = "素晴らしい！発言のニュアンスまで読み解くとは…！あなたは選ばれし者。";
+            iconClass = 'fas fa-gem'; // ダイヤモンド
+        } else if (percentage >= 70) { // 70-79%
+            rank = 'a';
+            rankTitle = "発言ソムリエ";
+            message = "お見事！的確な分析力、流石です。トークの機微を心得ていますね！";
+            iconClass = 'fas fa-award';
+        } else if (percentage >= 60) { // 60-69%
+            rank = 'bplus';
+            rankTitle = "事情通エージェント";
+            message = "かなり詳しいですね！重要情報を見抜くスパイの素質アリ…かも？";
+            iconClass = 'fas fa-user-secret'; // 秘密諜報員
+        } else if (percentage >= 40) { // 40-59%
+            rank = 'b';
+            rankTitle = "うわさ好きの隣人";
+            message = "おっと、聞き耳を立ててました？ゴシップの香りがしますよ…もう少しで核心に迫れたのに！";
+            iconClass = 'fas fa-耳'; // 耳アイコン (fa-ear-listen だとより良い) fas fa-solid fa-ear-listen
+        } else if (percentage >= 20) { // 20-39%
+            rank = 'c';
+            rankTitle = "迷宮のコメンテーター";
+            message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
+            iconClass = 'fas fa-satellite-dish'; // 衛星アンテナ
+        } else { // 0-19%
+            rank = 'd';
+            rankTitle = "異世界チャッター";
+            message = "…もしかして、まだチュートリアルでした？心配ご無用！誰だって最初はそんなものです（と、思いたい）。さぁ、深呼吸してもう一度！";
+            iconClass = 'fas fa-question-circle'; // はてなマーク
         }
+        
+        resultIconContainer.className = `result-icon-container rank-${rank}`; 
+        resultIconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+        resultRankTitleElement.textContent = rankTitle;
+        resultRankTitleElement.className = `result-rank-title rank-${rank}`; // CSSでランクごとのスタイルを当てるため
+        resultMessageElement.textContent = message;
+
+        animateValue(finalScoreValueElement, 0, score, 800 + score * 60);
+
+        progressBarElement.style.width = '100%';
+        progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
+    }
         
         resultIconContainer.className = `result-icon-container rank-${rank}`; 
         resultIconContainer.innerHTML = `<i class="${iconClass}"></i>`;
