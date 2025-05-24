@@ -214,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rankTitle = "迷宮のコメンテーター";
             message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
             iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
-        } else { 
         } else if (percentage >= 10) {
             rank = 'd';
             rankTitle = "迷宮のコメンテーター";
