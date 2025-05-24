@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // CSS handles entrance animation
         }
         try {
-            const response = await fetch('quiz_data.json');
+            //const response = await fetch('quiz_data.json');
+            const response = await fetch('quiz_data2.json');
             if (!response.ok) throw new Error(`HTTP error! Quiz data not found. Status: ${response.status}`);
             allQuizData = await response.json(); 
             if (!Array.isArray(allQuizData) || allQuizData.length === 0) {
