@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score === totalAnswered && totalAnswered > 0) { 
             rank = 'splus'; 
             rankTitle = "中毒お疲れ🤡";
-            message = "全問正解…さては、このトーク履歴と共に生きてます？リアルの人間関係を構築しませんか？";
+            message = "全問正解…さては、トーク履歴と共に生きてますか？リアルの人間関係を構築したらどうですか？";
             iconClass = 'fas fa-crown'; 
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
