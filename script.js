@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (score === totalAnswered && totalAnswered > 0) { 
             rank = 's'; rankTitle = "トーク神 降臨！";
-            message = "全問正解！あなたは全てを見通す千里眼の持ち主！";
+            message = "中毒お疲れ🤡";
             iconClass = 'fas fa-crown'; // 王冠アイコンに変更
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
