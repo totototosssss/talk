@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>誰の発言でしょう？クイズ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="quiz-header">
+            <h1>誰の発言でしょう？</h1>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="progress-text">問題 1 / ?</p>
+        </header>
 
+        <main id="quiz-area" class="quiz-content">
+            <div class="message-container">
+                <p id="message-text" class="message-bubble"></p>
+            </div>
+            <div id="choices-area" class="choices-grid">
+                </div>
+            <div class="feedback-container">
+                <p id="feedback-text"></p>
+            </div>
+            <button id="next-question-btn" class="action-button" style="display:none;">次の問題へ</button>
+        </main>
+
+        <section id="result-area" class="result-section" style="display:none;">
+            <h2>クイズ終了！</h2>
+            <div class="score-card">
+                <p>あなたのスコア</p>
+                <p class="final-score"><span id="score">0</span> / <span id="total-questions">0</span></p>
+                <p id="score-percentage" class="score-percentage"></p>
+            </div>
+            <button id="restart-btn" class="action-button">もう一度挑戦する</button>
+        </section>
+
+        <footer class="app-footer">
+            <p>&copy; 2024-2025 誰でしょうクイズ</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
