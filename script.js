@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM要素の取得
-    const messageTextElement = document.getElementById('message-text');
+    const messageTextContentElement = document.getElementById('message-text-content'); // Text goes here now
+    const messageBubbleElement = document.getElementById('message-text'); // The bubble div itself
     const choicesAreaElement = document.getElementById('choices-area');
     const feedbackTextElement = document.getElementById('feedback-text');
     const nextQuestionBtn = document.getElementById('next-question-btn');
@@ -27,9 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 初期化処理 ---
     async function initializeQuiz() {
-        // アプリコンテナのフェードインアニメーション用クラス付与
-        if(appContainer) { // 遅延させてアニメーションが目立つように
-            setTimeout(() => appContainer.style.opacity = '1', 100);
+        if(appContainer) { 
+            // App container entrance animation is handled by CSS's `animation-delay`
         }
 
         try {
@@ -45,14 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
             startGame();
         } catch (error) {
             console.error("クイズデータの読み込みまたは初期化に失敗:", error);
-            displayError(`クイズの読み込みに失敗しました: ${error.message}`);
+            displayError(`クイズの読み込みに失敗しました: ${error.message}. JSONファイルを確認してください。`);
         }
     }
 
     function prepareNewQuizSet() {
         let shuffledData = shuffleArray([...allQuizData]); 
         currentQuizSet = shuffledData.slice(0, TARGET_NUM_QUESTIONS); 
-        // データが10問未満の場合、あるだけの問題数でセットされる
         if (currentQuizSet.length === 0 && allQuizData.length > 0) {
              currentQuizSet = shuffledData.slice(0, allQuizData.length); 
         }
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizAreaElement.style.display = 'block';
         resultAreaElement.style.display = 'none';
         const header = document.querySelector('.quiz-header');
-        if(header) header.style.display = 'none';
+        if(header) header.style.display = 'none'; // Hide header on error
     }
 
     // --- クイズ進行 ---
@@ -71,21 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex = 0;
         score = 0;
         
-        // 結果表示エリアのアニメーションリセット
         resultAreaElement.style.display = 'none';
         const resultCard = document.querySelector('.result-card');
-        if(resultCard) {
+        if(resultCard) { // Reset animation state for result card
             resultCard.style.opacity = '0';
-            resultCard.style.transform = 'perspective(1000px) rotateY(-10deg) scale(0.95)';
+            resultCard.style.transform = 'perspective(1200px) rotateX(-15deg) scale(0.9)';
         }
         
         quizAreaElement.style.display = 'block';
         nextQuestionBtn.style.display = 'none';
         feedbackTextElement.textContent = '';
-        feedbackTextElement.className = 'feedback-text'; // 可視化クラス除去
+        feedbackTextElement.className = 'feedback-text'; // Reset visibility and color classes
         
         if (currentQuizSet.length === 0) {
-            displayError("出題できるクイズがありません。トーク履歴を確認してください。");
+            displayError("出題できるクイズがありません。トーク履歴やPythonスクリプトのフィルター条件を確認してください。");
             return;
         }
         
@@ -96,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayQuestion() {
         if (currentQuestionIndex < currentQuizSet.length) {
             const currentQuestion = currentQuizSet[currentQuestionIndex];
-            messageTextElement.innerHTML = currentQuestion.message.replace(/\n/g, '<br>');
+            messageTextContentElement.innerHTML = currentQuestion.message.replace(/\n/g, '<br>'); // Target new span
             choicesAreaElement.innerHTML = ''; 
 
             currentQuestion.choices.forEach(choice => {
@@ -106,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 choicesAreaElement.appendChild(button);
             });
             feedbackTextElement.textContent = '';
-            feedbackTextElement.className = 'feedback-text'; // リセット
+            feedbackTextElement.className = 'feedback-text';
             nextQuestionBtn.style.display = 'none';
         } else {
             showResults();
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btn.textContent === correctAnswer) btn.classList.add('reveal-correct');
         }
         
-        feedbackTextElement.classList.add('visible'); // フィードバック表示
+        feedbackTextElement.classList.add('visible');
 
         if (selectedChoice === correctAnswer) {
             score++;
@@ -134,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedButtonElement.classList.add('correct');
             }
             if (typeof confetti === 'function') {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.65 }, zIndex: 10000 });
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, zIndex: 10000, angle: randomRange(60, 120), scalar: randomRange(0.8, 1.2) });
             }
         } else {
             feedbackTextElement.textContent = `残念！正解は「${correctAnswer}」でした。`;
@@ -149,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalQuestionsInSet > 0) {
             const progressPercentage = ((currentQuestionIndex) / totalQuestionsInSet) * 100;
             progressBarElement.style.width = `${progressPercentage}%`;
-            // 問題番号は1から始まるため currentQuestionIndex + 1
             progressTextElement.textContent = `問題 ${currentQuestionIndex + 1} / ${totalQuestionsInSet}`;
         } else {
             progressBarElement.style.width = `0%`;
@@ -160,10 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 結果表示 ---
     function showResults() {
         quizAreaElement.style.display = 'none';
-        resultAreaElement.style.display = 'block'; // まず表示してアニメーション開始
+        resultAreaElement.style.display = 'block'; 
         
-        // 結果カードのアニメーションを再トリガーするために一旦クラスを削除して再追加することも検討
-        // 今回はCSSのanimation-fill-mode: forwards; を利用
+        // Trigger CSS animation for result card (it's set to run on display:block via keyframes)
+        const resultCard = document.querySelector('.result-card');
+        if(resultCard) { // Ensure animation plays if it was reset
+            resultCard.style.animation = 'none'; // Reset animation
+            resultCard.offsetHeight; /* trigger reflow */
+            resultCard.style.animation = ''; // Re-apply animation from CSS
+        }
         
         const totalAnswered = currentQuizSet.length;
         totalQuestionsOnResultElement.textContent = totalAnswered;
@@ -176,12 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (score === totalAnswered && totalAnswered > 0) { 
             rank = 's'; rankTitle = "トーク神 降臨！";
-            message = "中毒お疲れ🤡";
-            iconClass = 'fas fa-crown'; // 王冠アイコンに変更
+            message = "全問正解！あなたは全てを見通す千里眼の持ち主！";
+            iconClass = 'fas fa-crown'; 
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
-                     confetti({ particleCount: 300, spread: 200, origin: { y: 0.2 }, angle: 270, drift: 0.2, gravity: 0.8, zIndex: 10000, scalar: 1.2 });
-                     confetti({ particleCount: 200, spread: 160, origin: { y: 0.4 }, zIndex: 10000 });
+                     confetti({ particleCount: 250, spread: 180, origin: { y: 0.25 }, angle: 270, drift: 0.1, gravity: 0.7, zIndex: 10000, scalar: 1.3, ticks: 300 });
+                     confetti({ particleCount: 200, spread: 160, origin: { y: 0.35 }, zIndex: 10000, ticks: 300 });
                 }, 700);
             }
         } else if (percentage >= 80) {
@@ -195,19 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (percentage >= 40) {
             rank = 'c'; rankTitle = "トークチャレンジャー";
             message = "なかなかのセンス！継続は力なり、です！";
-            iconClass = 'fas fa-face-grin-stars'; // FontAwesome 6
+            iconClass = 'fas fa-face-grin-stars';
         } else if (percentage >= 20) {
             rank = 'd'; rankTitle = "トーク見習い";
             message = "頑張りました！次はもっと多くの発言を見抜こう！";
-            iconClass = 'fas fa-face-smile-beam'; // FontAwesome 6
-        } else if(percentage >= 10){
+            iconClass = 'fas fa-face-smile-beam';
+        } else {
             rank = 'f'; rankTitle = "トークの卵";
             message = "結果はちょっぴり残念…でも、挑戦する心が大切！";
-            iconClass = 'fas fa-egg'; // たまごアイコン
-        } else {
-            rank = 'g'; rankTitle = "論外";
-            message = "やる気ないの?";
-            iconClass = 'fas fa-egg'; // たまごアイコン
+            iconClass = 'fas fa-egg';
         }
         
         resultIconContainer.className = `result-icon-container rank-${rank}`; 
@@ -216,9 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resultRankTitleElement.className = `result-rank-title rank-${rank}`;
         resultMessageElement.textContent = message;
 
-        animateValue(finalScoreValueElement, 0, score, 1000 + score * 50); // スコアに応じてアニメーション時間変更
+        animateValue(finalScoreValueElement, 0, score, 800 + score * 60);
 
-        // 最終的なプログレスバーの状態
         progressBarElement.style.width = '100%';
         progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
     }
@@ -244,6 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
+    function randomRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
     
     // --- イベントリスナー ---
     document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -252,9 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < currentQuizSet.length) {
             displayQuestion();
-            updateProgress(); // ここでプログレスバーとテキストを更新
+            updateProgress(); 
         } else {
-            progressBarElement.style.width = '100%'; // 最後の問題回答後、バーを100%に
+            progressBarElement.style.width = '100%'; 
             progressTextElement.textContent = `結果を計算中...`; 
             showResults();
         }
