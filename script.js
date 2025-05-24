@@ -200,9 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
             rank = 'd'; rankTitle = "トーク見習い";
             message = "頑張りました！次はもっと多くの発言を見抜こう！";
             iconClass = 'fas fa-face-smile-beam'; // FontAwesome 6
-        } else {
+        } else if(percentage >= 10){
             rank = 'f'; rankTitle = "トークの卵";
             message = "結果はちょっぴり残念…でも、挑戦する心が大切！";
+            iconClass = 'fas fa-egg'; // たまごアイコン
+        } else {
+            rank = 'g'; rankTitle = "論外";
+            message = "やる気ないの?";
             iconClass = 'fas fa-egg'; // たまごアイコン
         }
         
