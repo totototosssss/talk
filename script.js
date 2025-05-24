@@ -236,18 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBarElement.style.width = '100%';
         progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
     }
-        
-        resultIconContainer.className = `result-icon-container rank-${rank}`; 
-        resultIconContainer.innerHTML = `<i class="${iconClass}"></i>`;
-        resultRankTitleElement.textContent = rankTitle;
-        resultRankTitleElement.className = `result-rank-title rank-${rank}`;
-        resultMessageElement.textContent = message;
 
-        animateValue(finalScoreValueElement, 0, score, 800 + score * 60);
 
-        progressBarElement.style.width = '100%';
-        progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
-    }
     
     function animateValue(element, start, end, duration) {
         let startTimestamp = null;
