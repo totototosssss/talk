@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score === totalAnswered && totalAnswered > 0) { 
             rank = 'splus'; 
             rankTitle = "中毒お疲れ🤡";
-            message = "全問正解…さては、このトーク履歴と共に生きてます？その情熱、別の方向にも活かせるかも…しれませんねぇ？";
+            message = "全問正解…さては、このトーク履歴と共に生きてます？リアルの人間関係を構築しませんか？";
             iconClass = 'fas fa-crown'; 
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
@@ -215,9 +215,15 @@ document.addEventListener('DOMContentLoaded', () => {
             message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
             iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
         } else { 
+        } else if (percentage >= 10) {
             rank = 'd';
-            rankTitle = "異世界チャッター"; // User's title was "トークの卵"
-            message = "…もしかして、まだチュートリアルでした？心配ご無用！誰だって最初はそんなものです（と、思いたい）。さぁ、深呼吸してもう一度！";
+            rankTitle = "迷宮のコメンテーター";
+            message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
+            iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
+        } else { 
+            rank = 'e';
+            rankTitle = "能無し"; // User's title was "トークの卵"
+            message = "やる気ないなら帰ってください";
             iconClass = 'fas fa-egg'; // User's icon idea
         }
         
