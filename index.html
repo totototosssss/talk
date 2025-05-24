@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>誰の発言でしょう?? 🤔</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>誰の発言でしょう?? 🤔</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -17,10 +18,15 @@
                     誰の発言でしょう
                     <span class="game-title-edition">??</span>
                 </h1>
-                <div class="progress-info">
-                    <div id="progress-text" class="progress-text">問題 1 / 10</div>
-                    <div class="progress-bar-container">
-                        <div id="progress-bar" class="progress-bar"></div>
+                <div class="header-info-bar">
+                    <div class="progress-info">
+                        <div id="progress-text" class="progress-text">問題 1 / 10</div>
+                        <div class="progress-bar-container">
+                            <div id="progress-bar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="current-score-display">
+                        <i class="fas fa-star score-icon"></i>スコア: <span id="current-score-value">0</span>
                     </div>
                 </div>
             </header>
@@ -28,12 +34,12 @@
             <main id="quiz-area" class="quiz-content">
                 <div class="message-display-area">
                     <div id="message-text" class="message-bubble">
-                        <i class="fas fa-quote-left message-quote-icon"></i>
+                        <i class="fas fa-comment-dots message-quote-icon"></i>
                         <span id="message-text-content"></span>
                     </div>
                 </div>
                 <div id="choices-area" class="choices-container">
-                    </div>
+                </div>
                 <div class="feedback-action-area">
                     <p id="feedback-text" class="feedback-text"></p>
                     <button id="next-question-btn" class="action-button" style="display:none;">
@@ -46,10 +52,10 @@
                 <div class="result-card">
                     <h2 class="result-card-title">クイズリザルト</h2>
                     <div id="result-icon-container" class="result-icon-container">
-                        </div>
+                    </div>
                     <p id="result-rank-title" class="result-rank-title"></p>
                     <div class="final-score-display">
-                        <span class="final-score-label">SCORE</span>
+                        <span class="final-score-label">FINAL SCORE</span>
                         <span id="final-score-value" class="final-score-value">0</span>
                         <span class="total-questions-label">/ <span id="total-questions-on-result">10</span></span>
                     </div>
@@ -61,7 +67,8 @@
             </section>
 
             <footer class="app-footer">
-                <p>&copy; <span id="current-year"></span> chat room 子子と子</p> </footer>
+                <p>&copy; <span id="current-year"></span> 誰の発言でしょう Pro. All rights reserved.</p>
+            </footer>
         </div>
     </div>
     <canvas id="confetti-canvas"></canvas>
@@ -70,3 +77,21 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
