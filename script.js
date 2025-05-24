@@ -186,6 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
                      confetti({ particleCount: 200, spread: 160, origin: { y: 0.35 }, zIndex: 10000, ticks: 300 });
                 }, 700);
             }
+        } else if (percentage >= 90) {
+            rank = 'a'; rankTitle = "真のトークマスター";
+            message = "お見事！その洞察力、まさに達人の域です！";
+            iconClass = 'fas fa-medal';
         } else if (percentage >= 80) {
             rank = 'a'; rankTitle = "トークマスター";
             message = "お見事！その洞察力、まさに達人の域です！";
