@@ -3,47 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>誰の発言でしょう？クイズ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>誰の発言でしょう？ Zenith</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Poppins:wght@600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container">
         <header class="quiz-header">
-            <h1>誰の発言でしょう？</h1>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
+            <h1 class="game-title">
+                <span>誰の</span><span>発言</span><span>でしょう？</span>
+                <span class="game-title-edition">Zenith</span>
+            </h1>
+            <div class="progress-info">
+                <div id="progress-text" class="progress-text">問題 1 / 10</div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
             </div>
-            <p id="progress-text">問題 1 / ?</p>
         </header>
 
         <main id="quiz-area" class="quiz-content">
-            <div class="message-container">
+            <div class="message-display-area">
                 <p id="message-text" class="message-bubble"></p>
             </div>
-            <div id="choices-area" class="choices-grid">
+            <div id="choices-area" class="choices-container">
                 </div>
-            <div class="feedback-container">
-                <p id="feedback-text"></p>
+            <div class="feedback-action-area">
+                <p id="feedback-text" class="feedback-text"></p>
+                <button id="next-question-btn" class="action-button next-button" style="display:none;">
+                    <i class="fas fa-arrow-right icon-before"></i> 次の問題へ
+                </button>
             </div>
-            <button id="next-question-btn" class="action-button" style="display:none;">次の問題へ</button>
         </main>
 
-        <section id="result-area" class="result-section" style="display:none;">
-            <h2>クイズ終了！</h2>
-            <div class="score-card">
-                <p>あなたのスコア</p>
-                <p class="final-score"><span id="score">0</span> / <span id="total-questions">0</span></p>
-                <p id="score-percentage" class="score-percentage"></p>
+        <section id="result-area" class="result-display-area" style="display:none;">
+            <div class="result-card">
+                <h2 class="result-card-title">クイズ結果</h2>
+                <div id="result-icon-container" class="result-icon-container">
+                    </div>
+                <p id="result-rank-title" class="result-rank-title"></p>
+                <div class="final-score-container">
+                    <span class="score-label-final">SCORE</span>
+                    <span id="final-score-value" class="final-score-value">0</span>
+                    <span class="total-questions-final">/ <span id="total-questions-on-result">10</span></span>
+                </div>
+                <p id="result-message" class="result-message"></p>
+                <button id="restart-btn" class="action-button restart-button">
+                    <i class="fas fa-redo icon-before"></i> もう一度挑戦！
+                </button>
             </div>
-            <button id="restart-btn" class="action-button">もう一度挑戦する</button>
         </section>
 
         <footer class="app-footer">
-            <p>&copy; 2024-2025 誰でしょうクイズ</p>
+            <p>&copy; <span id="current-year"></span> 誰でしょうクイズ Zenith</p>
         </footer>
     </div>
+    <canvas id="confetti-canvas"></canvas>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
