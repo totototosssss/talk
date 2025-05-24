@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM要素の取得
-    const messageTextContentElement = document.getElementById('message-text-content'); // Text goes here now
-    const messageBubbleElement = document.getElementById('message-text'); // The bubble div itself
+    const messageTextContentElement = document.getElementById('message-text-content');
     const choicesAreaElement = document.getElementById('choices-area');
     const feedbackTextElement = document.getElementById('feedback-text');
     const nextQuestionBtn = document.getElementById('next-question-btn');
@@ -10,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartBtn = document.getElementById('restart-btn');
     const progressBarElement = document.getElementById('progress-bar');
     const progressTextElement = document.getElementById('progress-text');
+    const currentScoreValueElement = document.getElementById('current-score-value'); // New score display
 
-    // 結果表示用要素
     const resultIconContainer = document.getElementById('result-icon-container');
     const resultRankTitleElement = document.getElementById('result-rank-title');
     const finalScoreValueElement = document.getElementById('final-score-value');
@@ -26,10 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     const TARGET_NUM_QUESTIONS = 10; 
 
-    // --- 初期化処理 ---
     async function initializeQuiz() {
         if(appContainer) { 
-            // App container entrance animation is handled by CSS's `animation-delay`
+            // App container entrance animation is handled by CSS
         }
 
         try {
@@ -62,25 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
         quizAreaElement.style.display = 'block';
         resultAreaElement.style.display = 'none';
         const header = document.querySelector('.quiz-header');
-        if(header) header.style.display = 'none'; // Hide header on error
+        if(header) header.style.display = 'none';
     }
 
-    // --- クイズ進行 ---
     function startGame() {
         currentQuestionIndex = 0;
         score = 0;
+        if(currentScoreValueElement) currentScoreValueElement.textContent = '0'; // Reset current score display
         
         resultAreaElement.style.display = 'none';
         const resultCard = document.querySelector('.result-card');
-        if(resultCard) { // Reset animation state for result card
-            resultCard.style.opacity = '0';
-            resultCard.style.transform = 'perspective(1200px) rotateX(-15deg) scale(0.9)';
+        if(resultCard) { 
+            resultCard.style.animation = 'none'; 
+            resultCard.offsetHeight; 
+            resultCard.style.animation = ''; 
         }
         
         quizAreaElement.style.display = 'block';
         nextQuestionBtn.style.display = 'none';
         feedbackTextElement.textContent = '';
-        feedbackTextElement.className = 'feedback-text'; // Reset visibility and color classes
+        feedbackTextElement.className = 'feedback-text'; 
         
         if (currentQuizSet.length === 0) {
             displayError("出題できるクイズがありません。トーク履歴やPythonスクリプトのフィルター条件を確認してください。");
@@ -94,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayQuestion() {
         if (currentQuestionIndex < currentQuizSet.length) {
             const currentQuestion = currentQuizSet[currentQuestionIndex];
-            messageTextContentElement.innerHTML = currentQuestion.message.replace(/\n/g, '<br>'); // Target new span
+            messageTextContentElement.innerHTML = currentQuestion.message.replace(/\n/g, '<br>');
             choicesAreaElement.innerHTML = ''; 
 
             currentQuestion.choices.forEach(choice => {
@@ -125,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (selectedChoice === correctAnswer) {
             score++;
+            if(currentScoreValueElement) currentScoreValueElement.textContent = score; // Update current score display
             feedbackTextElement.textContent = "正解！🎉";
             feedbackTextElement.classList.add('correct');
             if (selectedButtonElement) {
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedButtonElement.classList.add('correct');
             }
             if (typeof confetti === 'function') {
-                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, zIndex: 10000, angle: randomRange(60, 120), scalar: randomRange(0.8, 1.2) });
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.65 }, zIndex: 10000, scalar: 1.1 });
             }
         } else {
             feedbackTextElement.textContent = `残念！正解は「${correctAnswer}」でした。`;
@@ -154,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 結果表示 ---
-// --- 結果表示 (ここを書き換えます) ---
     function showResults() {
         quizAreaElement.style.display = 'none';
         resultAreaElement.style.display = 'block'; 
@@ -163,81 +160,78 @@ document.addEventListener('DOMContentLoaded', () => {
         const resultCard = document.querySelector('.result-card');
         if(resultCard) { 
             resultCard.style.animation = 'none'; 
-            resultCard.offsetHeight; /* trigger reflow */
+            resultCard.offsetHeight; 
             resultCard.style.animation = ''; 
         }
         
         const totalAnswered = currentQuizSet.length;
         totalQuestionsOnResultElement.textContent = totalAnswered;
 
-        let rank = ''; // CSSクラス制御用 (splus, s, aplus, a, bplus, b, c, d)
-        let rankTitle = ''; // 画面に表示される称号
-        let message = '';   // 画面に表示されるメッセージ
-        let iconClass = ''; // Font Awesome アイコンクラス
+        let rank = ''; 
+        let rankTitle = ''; 
+        let message = '';   
+        let iconClass = ''; 
         const percentage = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
 
         if (score === totalAnswered && totalAnswered > 0) { 
-            rank = 'splus'; // Perfect Score
-            rankTitle = "中毒お疲れ🤡"; // ご要望の煽りタイトル
-            message = "全問正解…さては、このトーク履歴と共に生きてます？やめた方がいいですよ。リアルの人間関係を大切にしてください。";
-            iconClass = 'fas fa-ghost'; // 煽り感を増すためにゴーストアイコンなど（お好みで fas fa-crown も可）
+            rank = 'splus'; 
+            rankTitle = "中毒お疲れ🤡";
+            message = "全問正解…さては、このトーク履歴と共に生きてます？その情熱、別の方向にも活かせるかも…しれませんねぇ？";
+            iconClass = 'fas fa-crown'; 
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
-                     // 控えめだけど皮肉っぽい紙吹雪？あるいは派手なままか。
-                     confetti({ particleCount: 150, spread: 120, origin: { y: 0.4 }, angle: randomRange(45, 135), drift: randomRange(-0.1, 0.1), scalar: randomRange(0.7, 1.1), zIndex: 10000, ticks: 250, colors: ['#FFD700', '#FF69B4', '#8A2BE2'] }); // 金、ピンク、紫など派手目
-                     confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 }, angle: randomRange(225, 315), drift: randomRange(-0.1, 0.1), scalar: randomRange(0.6, 1.0), zIndex: 10000, ticks: 200, colors: ['#000000', '#4B0082', '#FF0000'] }); // 黒、濃紫、赤などダークな煽り
+                     confetti({ particleCount: 250, spread: 180, origin: { y: 0.25 }, angle: 270, drift: 0.1, gravity: 0.7, zIndex: 10000, scalar: 1.3, ticks: 300, colors: ['#FFD700', '#FF69B4', '#8A2BE2', '#000000'] });
+                     confetti({ particleCount: 200, spread: 160, origin: { y: 0.35 }, zIndex: 10000, ticks: 300, colors: ['#FFFFFF', '#4B0082', '#FF0000'] });
                 }, 700);
             }
-        } else if (percentage >= 90) { // 90-99%
+        } else if (percentage >= 90) {
             rank = 's'; 
-            rankTitle = "トーク界の覇者";
+            rankTitle = "真のトークマスター";
             message = "ほぼ完璧！あなたの前では、どんな些細な発言も見逃されませんね。まさに神業！";
-            iconClass = 'fas fa-dragon'; // 龍や神話生物など
-        } else if (percentage >= 80) { // 80-89%
+            iconClass = 'fas fa-award'; // Replaced fa-dragon
+        } else if (percentage >= 80) {
             rank = 'aplus'; 
-            rankTitle = "超絶技巧リスナー";
-            message = "素晴らしい！発言のニュアンスまで読み解くとは…！あなたは選ばれし者。";
-            iconClass = 'fas fa-gem'; // ダイヤモンド
-        } else if (percentage >= 70) { // 70-79%
+            rankTitle = "トークマスター"; // User's title, refined from "超絶技巧リスナー"
+            message = "お見事！その洞察力、まさに達人の域です！";
+            iconClass = 'fas fa-medal'; // Replaced fa-gem
+        } else if (percentage >= 70) {
             rank = 'a';
             rankTitle = "発言ソムリエ";
             message = "お見事！的確な分析力、流石です。トークの機微を心得ていますね！";
-            iconClass = 'fas fa-award';
-        } else if (percentage >= 60) { // 60-69%
+            iconClass = 'fas fa-star'; // Kept fa-star, or use fa-certificate
+        } else if (percentage >= 60) {
             rank = 'bplus';
             rankTitle = "事情通エージェント";
             message = "かなり詳しいですね！重要情報を見抜くスパイの素質アリ…かも？";
-            iconClass = 'fas fa-user-secret'; // 秘密諜報員
-        } else if (percentage >= 40) { // 40-59%
+            iconClass = 'fas fa-user-secret'; // This is a Free icon
+        } else if (percentage >= 40) {
             rank = 'b';
             rankTitle = "うわさ好きの隣人";
             message = "おっと、聞き耳を立ててました？ゴシップの香りがしますよ…もう少しで核心に迫れたのに！";
-            iconClass = 'fas fa-耳'; // 耳アイコン (fa-ear-listen だとより良い) fas fa-solid fa-ear-listen
-        } else if (percentage >= 20) { // 20-39%
+            iconClass = 'fas fa-magnifying-glass'; // Replaced fa-ear-listen
+        } else if (percentage >= 20) {
             rank = 'c';
             rankTitle = "迷宮のコメンテーター";
             message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
-            iconClass = 'fas fa-satellite-dish'; // 衛星アンテナ
-        } else { // 0-19%
+            iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
+        } else { 
             rank = 'd';
-            rankTitle = "異世界チャッター";
+            rankTitle = "異世界チャッター"; // User's title was "トークの卵"
             message = "…もしかして、まだチュートリアルでした？心配ご無用！誰だって最初はそんなものです（と、思いたい）。さぁ、深呼吸してもう一度！";
-            iconClass = 'fas fa-question-circle'; // はてなマーク
+            iconClass = 'fas fa-egg'; // User's icon idea
         }
         
         resultIconContainer.className = `result-icon-container rank-${rank}`; 
         resultIconContainer.innerHTML = `<i class="${iconClass}"></i>`;
         resultRankTitleElement.textContent = rankTitle;
-        resultRankTitleElement.className = `result-rank-title rank-${rank}`; // CSSでランクごとのスタイルを当てるため
+        resultRankTitleElement.className = `result-rank-title rank-${rank}`; 
         resultMessageElement.textContent = message;
 
-        animateValue(finalScoreValueElement, 0, score, 800 + score * 60);
+        animateValue(finalScoreValueElement, 0, score, 700 + score * 50); // Adjusted animation time slightly
 
         progressBarElement.style.width = '100%';
         progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
     }
-
-
     
     function animateValue(element, start, end, duration) {
         let startTimestamp = null;
@@ -252,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.requestAnimationFrame(step);
     }
 
-    // --- ユーティリティ ---
     function shuffleArray(array) { 
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -260,11 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
-    function randomRange(min, max) {
+    function randomRange(min, max) { // Kept for potential future use or if user re-adds to confetti
         return Math.random() * (max - min) + min;
     }
     
-    // --- イベントリスナー ---
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
     nextQuestionBtn.addEventListener('click', () => {
@@ -284,6 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
         startGame();
     });
     
-    // --- クイズ開始 ---
     initializeQuiz();
 });
