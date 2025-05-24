@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartBtn = document.getElementById('restart-btn');
     const progressBarElement = document.getElementById('progress-bar');
     const progressTextElement = document.getElementById('progress-text');
-    const currentScoreValueElement = document.getElementById('current-score-value'); // New score display
+    const currentScoreValueElement = document.getElementById('current-score-value');
+    const currentScoreDisplayElement = document.querySelector('.current-score-display');
+
 
     const resultIconContainer = document.getElementById('result-icon-container');
     const resultRankTitleElement = document.getElementById('result-rank-title');
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initializeQuiz() {
         if(appContainer) { 
-            // App container entrance animation is handled by CSS
+            // CSS handles entrance animation
         }
 
         try {
@@ -65,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGame() {
         currentQuestionIndex = 0;
         score = 0;
-        if(currentScoreValueElement) currentScoreValueElement.textContent = '0'; // Reset current score display
+        if(currentScoreValueElement) currentScoreValueElement.textContent = '0';
+        if(currentScoreDisplayElement) currentScoreDisplayElement.classList.remove('score-updated');
         
         resultAreaElement.style.display = 'none';
         const resultCard = document.querySelector('.result-card');
@@ -123,7 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (selectedChoice === correctAnswer) {
             score++;
-            if(currentScoreValueElement) currentScoreValueElement.textContent = score; // Update current score display
+            if(currentScoreValueElement) currentScoreValueElement.textContent = score;
+            if(currentScoreDisplayElement) {
+                currentScoreDisplayElement.classList.add('score-updated');
+                setTimeout(() => currentScoreDisplayElement.classList.remove('score-updated'), 300);
+            }
             feedbackTextElement.textContent = "正解！🎉";
             feedbackTextElement.classList.add('correct');
             if (selectedButtonElement) {
@@ -137,6 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
             feedbackTextElement.textContent = `残念！正解は「${correctAnswer}」でした。`;
             feedbackTextElement.classList.add('wrong');
             if (selectedButtonElement) selectedButtonElement.classList.add('wrong');
+            
+            if (appContainer) {
+                appContainer.classList.add('app-container-jiggle');
+                setTimeout(() => {
+                    appContainer.classList.remove('app-container-jiggle');
+                }, 300); 
+            }
         }
         nextQuestionBtn.style.display = 'inline-flex';
     }
@@ -232,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultRankTitleElement.className = `result-rank-title rank-${rank}`; 
         resultMessageElement.textContent = message;
 
-        animateValue(finalScoreValueElement, 0, score, 700 + score * 50); // Adjusted animation time slightly
+        animateValue(finalScoreValueElement, 0, score, 700 + score * 50);
 
         progressBarElement.style.width = '100%';
         progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
@@ -258,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
-    function randomRange(min, max) { // Kept for potential future use or if user re-adds to confetti
+    function randomRange(min, max) { 
         return Math.random() * (max - min) + min;
     }
     
