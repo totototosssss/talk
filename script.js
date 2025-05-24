@@ -11,14 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentScoreValueElement = document.getElementById('current-score-value');
     const currentScoreDisplayElement = document.querySelector('.current-score-display');
 
-
     const resultIconContainer = document.getElementById('result-icon-container');
     const resultRankTitleElement = document.getElementById('result-rank-title');
     const finalScoreValueElement = document.getElementById('final-score-value');
     const totalQuestionsOnResultElement = document.getElementById('total-questions-on-result');
     const resultMessageElement = document.getElementById('result-message');
     
-    const appContainer = document.querySelector('.app-container');
+    const appContainer = document.querySelector('.app-container'); // アニメーションターゲット
 
     let allQuizData = []; 
     let currentQuizSet = []; 
@@ -30,12 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if(appContainer) { 
             // CSS handles entrance animation
         }
-
         try {
             const response = await fetch('quiz_data.json');
             if (!response.ok) throw new Error(`HTTP error! Quiz data not found. Status: ${response.status}`);
             allQuizData = await response.json(); 
-            
             if (!Array.isArray(allQuizData) || allQuizData.length === 0) {
                 displayError("クイズデータが見つからないか、形式が正しくありません。");
                 return;
@@ -87,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             displayError("出題できるクイズがありません。トーク履歴やPythonスクリプトのフィルター条件を確認してください。");
             return;
         }
-        
         updateProgress();
         displayQuestion();
     }
@@ -97,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentQuestion = currentQuizSet[currentQuestionIndex];
             messageTextContentElement.innerHTML = currentQuestion.message.replace(/\n/g, '<br>');
             choicesAreaElement.innerHTML = ''; 
-
             currentQuestion.choices.forEach(choice => {
                 const button = document.createElement('button');
                 button.textContent = choice;
@@ -115,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleAnswer(selectedChoice, correctAnswer) {
         const buttons = choicesAreaElement.getElementsByTagName('button');
         let selectedButtonElement = null;
-
         for (let btn of buttons) {
             btn.disabled = true;
             if (btn.textContent === selectedChoice) selectedButtonElement = btn;
@@ -145,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
             feedbackTextElement.classList.add('wrong');
             if (selectedButtonElement) selectedButtonElement.classList.add('wrong');
             
-            if (appContainer) {
-                appContainer.classList.add('app-container-jiggle');
-                setTimeout(() => {
-                    appContainer.classList.remove('app-container-jiggle');
-                }, 300); 
-            }
+            // --- 不正解時の演出 (フィードバックテキストのシェイク) ---
+            feedbackTextElement.classList.add('feedback-text-shake');
+            setTimeout(() => {
+                feedbackTextElement.classList.remove('feedback-text-shake');
+            }, 400); // CSSのアニメーション時間と合わせる
+            // --- ここまで ---
         }
         nextQuestionBtn.style.display = 'inline-flex';
     }
@@ -170,21 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResults() {
         quizAreaElement.style.display = 'none';
         resultAreaElement.style.display = 'block'; 
-        
         const resultCard = document.querySelector('.result-card');
-        if(resultCard) { 
-            resultCard.style.animation = 'none'; 
-            resultCard.offsetHeight; 
-            resultCard.style.animation = ''; 
-        }
+        if(resultCard) { resultCard.style.animation = 'none'; resultCard.offsetHeight; resultCard.style.animation = ''; }
         
         const totalAnswered = currentQuizSet.length;
         totalQuestionsOnResultElement.textContent = totalAnswered;
-
-        let rank = ''; 
-        let rankTitle = ''; 
-        let message = '';   
-        let iconClass = ''; 
+        let rank = '', rankTitle = '', message = '', iconClass = ''; 
         const percentage = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
 
         if (score === totalAnswered && totalAnswered > 0) { 
@@ -245,9 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultRankTitleElement.textContent = rankTitle;
         resultRankTitleElement.className = `result-rank-title rank-${rank}`; 
         resultMessageElement.textContent = message;
-
         animateValue(finalScoreValueElement, 0, score, 700 + score * 50);
-
         progressBarElement.style.width = '100%';
         progressTextElement.textContent = `全 ${totalAnswered} 問完了！`;
     }
@@ -258,9 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
             element.textContent = Math.floor(progress * (end - start) + start);
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
+            if (progress < 1) { window.requestAnimationFrame(step); }
         };
         window.requestAnimationFrame(step);
     }
@@ -272,12 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
-    function randomRange(min, max) { 
-        return Math.random() * (max - min) + min;
-    }
+    function randomRange(min, max) { return Math.random() * (max - min) + min; }
     
     document.getElementById('current-year').textContent = new Date().getFullYear();
-
     nextQuestionBtn.addEventListener('click', () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < currentQuizSet.length) {
@@ -289,11 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showResults();
         }
     });
-
     restartBtn.addEventListener('click', () => {
         prepareNewQuizSet(); 
         startGame();
     });
-    
     initializeQuiz();
 });
