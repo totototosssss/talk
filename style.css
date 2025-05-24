@@ -1,72 +1,99 @@
+/* style.css */
 :root {
-    --color-bg-page: #f0f2f5; 
-    --color-bg-container: rgba(255, 255, 255, 0.97); /* 背景画像の上に配置するため、少し透明度を持たせることも検討 */
+    /* Color Palette - Sophisticated Clarity */
+    --color-bg-page-overlay-start: rgba(255, 255, 255, 0.92); /* 背景画像の上に重ねる白の透明度（開始） */
+    --color-bg-page-overlay-end: rgba(255, 255, 255, 0.88);   /* 背景画像の上に重ねる白の透明度（終了） */
+    --color-bg-container: #ffffff; /* メインコンテナは不透明な白 */
     --color-surface-raised: #ffffff;
-    --color-surface-interactive: #f8f9fa;
+    --color-surface-interactive: #fdfdff;
 
-    --color-text-primary: #1d2129; 
-    --color-text-secondary: #4b4f56; 
+    --color-text-primary: #202124; 
+    --color-text-secondary: #5f6368; 
     --color-text-light: #ffffff;
     --color-text-on-accent: #ffffff;
 
-    --color-accent-primary: #007bff; 
-    --color-accent-secondary: #ffc107; /* より汎用的な黄色アクセント */
+    --color-accent-primary: #0071e3; 
+    --color-accent-secondary: #ff9500; 
     
-    --color-correct: #20c997; /* 少し落ち着いた、モダンな緑 */
-    --color-wrong: #fa5252; /* 少し落ち着いた、モダンな赤 */
+    --color-correct: #198754; 
+    --color-wrong: #dc3545; 
     
-    --color-border-subtle: #dbe0e6; 
-    --color-border-interactive: #ced4da;
+    --color-border-subtle: #e8eaed; 
+    --color-border-interactive: #d2d2d7;
 
-    --shadow-xs: 0 1px 3px rgba(0,0,0,0.05);
-    --shadow-sm: 0 3px 6px rgba(0,0,0,0.06);
-    --shadow-md: 0 6px 12px rgba(0,0,0,0.07);
-    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
-    --shadow-xl: 0 15px 40px rgba(0,0,0,0.1);
+    /* Shadows - Soft & Diffused */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.1);
 
+    /* Typography */
     --font-family-body: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --font-family-ui: 'Poppins', 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-family-jp-title: 'M PLUS Rounded 1c', var(--font-family-ui);
     --font-family-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
+    /* Spacing & Sizing */
     --spacing-unit: 8px;
-    --border-radius-sm: 0.3rem;  /* 4.8px */
-    --border-radius-md: 0.6rem;  /* 9.6px */
-    --border-radius-lg: 0.9rem;  /* 14.4px */
-    --border-radius-xl: 1.25rem; /* 20px */
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px; 
+    --border-radius-xl: 20px; 
     --border-radius-pill: 999px;
 
+    /* Transitions */
     --transition-duration-fast: 0.15s;
     --transition-duration-normal: 0.25s;
     --transition-timing-interactive: cubic-bezier(0.4, 0, 0.2, 1);
     --transition-timing-elegant: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-html { scroll-behavior: smooth; font-size: 16px; }
+/* Basic Reset & Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    height: 100%; /* Ensure html takes full height */
+}
 
 body {
     font-family: var(--font-family-body);
-    background-image: url('back.png');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     color: var(--color-text-primary);
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    min-height: 100%; /* Changed from 100vh for potentially better scroll behavior with fixed-like backgrounds */
     padding: calc(var(--spacing-unit) * 2.5); 
     overflow-x: hidden;
     line-height: 1.65;
+
+    /* --- 背景画像設定 --- */
+    background-image: linear-gradient(var(--color-bg-page-overlay-start), var(--color-bg-page-overlay-end)), url('back.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll; /* ★ 'fixed' から 'scroll' に変更 (モバイルでの表示安定性のため) */
+    /* --- 背景画像設定 ここまで --- */
 }
 
-.app-wrapper { width: 100%; display: flex; justify-content: center; }
+.app-wrapper { 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+}
 
 .app-container {
     width: 100%;
     max-width: 660px; 
-    background-color: var(--color-bg-container);
+    background-color: var(--color-bg-container); /* ★不透明な白でコンテンツの可読性を確保 */
     border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-xl);
     overflow: hidden;
@@ -78,6 +105,7 @@ body {
 }
 @keyframes appAppear { to { opacity: 1; transform: translateY(0) scale(1); } }
 
+/* Header Section */
 .quiz-header {
     padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
     text-align: center;
@@ -85,22 +113,33 @@ body {
     position: relative; 
 }
 .game-title {
-    font-family: var(--font-family-ui);
+    font-family: var(--font-family-jp-title);
     font-size: clamp(1.7rem, 5vw, 2.05rem);
-    font-weight: 700; 
+    font-weight: 800; 
     color: var(--color-text-primary);
     margin-bottom: calc(var(--spacing-unit) * 1.5);
     line-height: 1.25;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex; 
+    justify-content: center;
+    align-items: baseline; 
+    flex-wrap: wrap; 
 }
 .game-title .game-title-edition {
+    font-family: var(--font-family-ui);
     background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
     margin-left: calc(var(--spacing-unit) * 0.75);
-    font-size: 0.95em;
-    vertical-align: baseline;
+    font-size: 0.95em; /* メインタイトルとのバランス調整 */
+    line-height: 1;
+    padding: 0 calc(var(--spacing-unit) * 0.25); /* グラデーションが見えるように */
+    align-self: center;
+    text-shadow: none;
+    display: inline-block;
 }
 
 .header-info-bar {
@@ -119,19 +158,27 @@ body {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-text-secondary);
-    background-color: #f0f2f5;
+    background-color: #f0f2f5; /* ヘッダー内での背景色 */
     padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-xs);
     white-space: nowrap;
+    transition: background-color var(--transition-duration-fast) ease;
 }
 .current-score-display .score-icon {
     color: var(--color-accent-secondary);
     margin-right: calc(var(--spacing-unit) * 0.5);
+    transition: transform 0.3s ease;
+}
+.current-score-display.score-updated .score-icon { /* JSでスコア更新時にこのクラスを一時的に付与 */
+    transform: scale(1.3) rotate(15deg);
 }
 #current-score-value {
     font-weight: 700;
     color: var(--color-text-primary);
+    display: inline-block; /* アニメーションのため */
+    min-width: 10px; /* 数字が1桁でも幅を保つ */
+    text-align: right;
 }
 
 .progress-text {
@@ -160,9 +207,9 @@ body {
 
 .message-display-area { margin-bottom: calc(var(--spacing-unit) * 3); }
 .message-bubble {
-    background: var(--color-surface-raised);
+    background: var(--color-surface-raised); /* 背景画像の上なので不透明な白系が望ましい */
     color: var(--color-text-primary);
-    padding: calc(var(--spacing-unit) * 2.25) calc(var(--spacing-unit) * 2.75); /* 18px 22px */
+    padding: calc(var(--spacing-unit) * 2.25) calc(var(--spacing-unit) * 2.75); 
     border-radius: var(--border-radius-lg); 
     box-shadow: var(--shadow-md);
     position: relative;
@@ -177,10 +224,6 @@ body {
     border: 1px solid var(--color-border-subtle);
     transition: transform 0.2s var(--transition-timing-elegant), box-shadow 0.2s var(--transition-timing-elegant);
 }
-/* .message-bubble:hover { 
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-} */
 .message-quote-icon { 
     font-size: 1.15em; 
     color: var(--color-accent-primary); 
@@ -197,8 +240,8 @@ body {
 
 .choices-container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); /* ボタンの最小幅を少し調整 */
-    gap: calc(var(--spacing-unit) * 1.25); /* 10px */
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); 
+    gap: calc(var(--spacing-unit) * 1.25); 
     margin-bottom: calc(var(--spacing-unit) * 3); 
 }
 .choices-container button { 
@@ -229,20 +272,20 @@ body {
 }
 .choices-container button:active:not(:disabled) { 
     transform: translateY(0px) scale(0.98); 
-    background-color: #e4effb; /* さらに薄い青 */
+    background-color: #e4effb; 
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); 
 }
 .choices-container button:disabled { opacity: 0.65; cursor: not-allowed; background-color: #f1f3f5; box-shadow: none; }
 .choices-container button.correct { 
     background-color: var(--color-correct); 
-    border-color: #1c7430; /* Darken correct color */
+    border-color: #1c7430; 
     color: var(--color-text-on-accent); 
     transform: scale(1.03); 
     box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3); 
 }
 .choices-container button.wrong { 
     background-color: var(--color-wrong); 
-    border-color: #b02a37; /* Darken wrong color */
+    border-color: #b02a37; 
     color: var(--color-text-on-accent); 
     transform: scale(1); 
     opacity: 0.9; 
@@ -265,7 +308,7 @@ body {
     background: var(--color-accent-primary); 
     color: var(--color-text-on-accent); 
     font-family: var(--font-family-ui); 
-    padding: calc(var(--spacing-unit) * 1.6) calc(var(--spacing-unit) * 3.75); /* 12.8px 30px */
+    padding: calc(var(--spacing-unit) * 1.6) calc(var(--spacing-unit) * 3.75); 
     border: none; 
     border-radius: var(--border-radius-pill); 
     font-size: clamp(0.9rem, 2.2vw, 1rem); 
@@ -332,6 +375,8 @@ body {
     .app-container { max-width: 100%; min-height: 100dvh; border-radius: 0; box-shadow: none; padding: calc(var(--spacing-unit) * 0.5); } 
     .quiz-header, .quiz-content, .result-display-area { padding-left: var(--spacing-unit); padding-right: var(--spacing-unit); } 
     .quiz-header { padding-top: calc(var(--spacing-unit) * 2); padding-bottom: var(--spacing-unit); } 
+    .header-info-bar { flex-direction: column; align-items: stretch; gap: var(--spacing-unit); }
+    .current-score-display { text-align: center; }
     .message-bubble { padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.25); } 
     .message-quote-icon { margin-right: calc(var(--spacing-unit) * 0.75); } 
     .choices-container { grid-template-columns: repeat(2, 1fr); gap: var(--spacing-unit); } 
