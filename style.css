@@ -1,35 +1,35 @@
 /* style.css */
 :root {
-    --bg-main: #eef1f5; /* より明るく、わずかに青みがかった背景 */
-    --text-primary: #3a4b60; /* 深みのある主要テキストカラー */
-    --text-secondary: #6c7a8f; /* やや彩度を落とした副次テキスト */
-    --text-accent: #0077cc; /* 知的で信頼感のある青 */
+    --bg-main: #eef1f5; 
+    --text-primary: #3a4b60; 
+    --text-primary-stronger: #2c3e50; /* 問題文用に少し濃い色 */
+    --text-secondary: #6c7a8f; 
+    --text-accent: #0077cc; 
     --text-light: #ffffff;
     
-    /* Neumorphismシャドウ */
     --neumorph-shadow-distance: 8px;
     --neumorph-shadow-blur: 16px;
     --neumorph-shadow-light-color: rgba(255, 255, 255, 0.9);
     --neumorph-shadow-dark-color: rgba(163, 177, 198, 0.45);
+    --neumorph-shadow-dark-color-emphasis: rgba(163, 177, 198, 0.55); /* 問題文吹き出し用 */
     --neumorph-shadow-inset-dark-color: rgba(163, 177, 198, 0.4);
-
 
     --primary-button-bg: linear-gradient(145deg, #1ea2e0, #0077cc);
     --primary-button-hover-bg: linear-gradient(145deg, #0077cc, #1ea2e0);
-    --correct-bg: #25c870; /* より鮮やかな緑 */
-    --wrong-bg: #f25252; /* より鮮やかな赤 */
+    --correct-bg: #25c870; 
+    --wrong-bg: #f25252; 
 
     --font-body: 'M PLUS Rounded 1c', 'Helvetica Neue', Arial, sans-serif;
-    --font-ui: 'Poppins', 'M PLUS Rounded 1c', sans-serif; /* UI要素、タイトル向け */
-    --font-display: 'Montserrat', 'Poppins', sans-serif; /* スコアなど特に目立たせたい数字 */
+    --font-ui: 'Poppins', 'M PLUS Rounded 1c', sans-serif; 
+    --font-display: 'Montserrat', 'Poppins', sans-serif; 
 
-    --border-radius-lg: 24px; /* 大きめの角丸 */
-    --border-radius-md: 16px;
+    --border-radius-lg: 24px; 
+    --border-radius-md: 18px; /* 問題文吹き出しにも適用 */
     --border-radius-sm: 12px;
     
     --transition-duration-normal: 0.3s;
     --transition-duration-fast: 0.15s;
-    --transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1); /* スムーズなイージング */
+    --transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
 
 /* 基本リセットとページ全体のスタイル */
@@ -37,13 +37,13 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    -webkit-font-smoothing: antialiased; /* フォントのスムージング */
+    -webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale;
 }
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px; /* ベースフォントサイズ */
+    font-size: 16px; 
 }
 
 body {
@@ -56,13 +56,13 @@ body {
     min-height: 100vh;
     padding: 20px;
     overflow-x: hidden;
-    line-height: 1.65; /* 行間を少し広めに */
+    line-height: 1.65; 
 }
 
 /* アプリケーション全体のコンテナ */
 .app-container {
     width: 100%;
-    max-width: 700px; /* 最大幅を少し調整 */
+    max-width: 700px; 
     background-color: var(--bg-main);
     border-radius: var(--border-radius-lg);
     box-shadow: 
@@ -71,8 +71,8 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    opacity: 0; /* 初期は非表示 */
-    transform: translateY(10px); /* 少し下に配置 */
+    opacity: 0; 
+    transform: translateY(10px); 
     animation: appFadeIn var(--transition-duration-normal) var(--transition-timing-function) 0.2s forwards;
 }
 
@@ -86,13 +86,13 @@ body {
 
 /* ヘッダーセクション */
 .quiz-header {
-    padding: 28px 28px 20px; /* パディング調整 */
+    padding: 28px 28px 20px; 
     text-align: center;
 }
 
 .game-title {
     font-family: var(--font-ui);
-    font-size: clamp(1.8rem, 5vw, 2.1rem); /* レスポンシブフォントサイズ */
+    font-size: clamp(1.8rem, 5vw, 2.1rem); 
     font-weight: 800; 
     color: var(--text-primary);
     margin-bottom: 18px;
@@ -100,7 +100,7 @@ body {
 }
 .game-title span { display: inline-block; }
 .game-title .game-title-edition { 
-    background: linear-gradient(60deg, var(--text-accent), #ff577f); /* ピンク系アクセント */
+    background: linear-gradient(60deg, var(--text-accent), #ff577f); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800; 
@@ -130,7 +130,7 @@ body {
 #progress-bar {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, var(--text-accent) 0%, #ffc84a 100%); /* 青からオレンジへのグラデ */
+    background: linear-gradient(90deg, var(--text-accent) 0%, #ffc84a 100%); 
     border-radius: var(--border-radius-sm);
     transition: width var(--transition-duration-normal) var(--transition-timing-function);
 }
@@ -148,25 +148,35 @@ body {
 }
 .message-bubble {
     background-color: var(--bg-main);
-    color: var(--text-primary);
-    padding: 20px 24px;
-    border-radius: var(--border-radius-md);
-    box-shadow: 
-        calc(var(--neumorph-shadow-distance) * 0.75) calc(var(--neumorph-shadow-distance) * 0.75) calc(var(--neumorph-shadow-blur) * 0.75) var(--neumorph-shadow-dark-color),
-        calc(-1 * var(--neumorph-shadow-distance) * 0.75) calc(-1 * var(--neumorph-shadow-distance) * 0.75) calc(var(--neumorph-shadow-blur) * 0.75) var(--neumorph-shadow-light-color);
+    /* color: var(--text-primary); */ /* 下で指定 */
+    /* padding: 20px 24px; */ /* 下で指定 */
+    border-radius: var(--border-radius-md); 
+    /* box-shadow:  */ /* 下で指定 */
     max-width: 100%;
     text-align: left;
     white-space: pre-wrap; 
     word-wrap: break-word; 
-    font-size: clamp(1rem, 2.5vw, 1.1rem); 
-    line-height: 1.7;
-    font-weight: 500; /* M PLUS Rounded 1c Medium */
+    /* font-size: clamp(1rem, 2.5vw, 1.1rem);  */ /* 下で指定 */
+    /* line-height: 1.7; */ /* 下で指定 */
+    /* font-weight: 500; */ /* 下で指定 */
+
+    /* --- 問題文強調のための変更 --- */
+    color: var(--text-primary-stronger); /* より濃いテキストカラー */
+    padding: 22px 26px; /* パディングを少し増加 */
+    font-size: clamp(1.1rem, 2.8vw, 1.3rem); /* フォントサイズを少し大きく */
+    font-weight: 700; /* M PLUS Rounded 1c Bold / Poppins Bold など太めのウェイト */
+    line-height: 1.75; /* 行間も少し広げて読みやすく */
+    box-shadow: 
+        calc(var(--neumorph-shadow-distance) * 0.85) calc(var(--neumorph-shadow-distance) * 0.85) calc(var(--neumorph-shadow-blur) * 0.85) var(--neumorph-shadow-dark-color-emphasis), /* シャドウを少し強調 */
+        calc(-1 * var(--neumorph-shadow-distance) * 0.85) calc(-1 * var(--neumorph-shadow-distance) * 0.85) calc(var(--neumorph-shadow-blur) * 0.85) var(--neumorph-shadow-light-color);
+    border: 1px solid rgba(0, 0, 0, 0.03); /* 非常に薄い境界線で輪郭を強調 */
+    /* --- 問題文強調のための変更 ここまで --- */
 }
 
 /* 選択肢コンテナとボタン（13個対応） */
 .choices-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); /* ボタン最小幅調整 */
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); 
     gap: 14px; 
     margin-bottom: 28px;
 }
@@ -195,7 +205,7 @@ body {
 
 .choices-container button:hover:not(:disabled) {
     color: var(--text-accent);
-    transform: translateY(-2px); /* わずかに浮き上がる */
+    transform: translateY(-2px); 
     box-shadow: 
         calc(var(--neumorph-shadow-distance) * 0.8) calc(var(--neumorph-shadow-distance) * 0.8) calc(var(--neumorph-shadow-blur) * 0.8) var(--neumorph-shadow-dark-color),
         calc(-1 * var(--neumorph-shadow-distance) * 0.8) calc(-1 * var(--neumorph-shadow-distance) * 0.8) calc(var(--neumorph-shadow-blur) * 0.8) var(--neumorph-shadow-light-color);
@@ -218,9 +228,9 @@ body {
 .choices-container button.correct {
     background-color: var(--correct-bg);
     color: var(--text-light);
-    box-shadow: 0 0 15px rgba(37, 200, 112, 0.6), /* 正解時に光るような効果 */
+    box-shadow: 0 0 15px rgba(37, 200, 112, 0.6), 
                 inset 1px 1px 3px rgba(255,255,255,0.4); 
-    transform: scale(1.02); /* 少し拡大 */
+    transform: scale(1.02); 
 }
 .choices-container button.wrong {
     background-color: var(--wrong-bg);
@@ -249,7 +259,7 @@ body {
     min-height: 1.5em; 
     margin-bottom: 18px;
     transition: color var(--transition-duration-fast) ease, opacity var(--transition-duration-normal) ease;
-    opacity: 0; /* 初期非表示、JSで表示 */
+    opacity: 0; 
 }
 .feedback-text.visible {
     opacity: 1;
@@ -275,7 +285,7 @@ body {
     display: inline-flex; 
     align-items: center;
     justify-content: center;
-    text-decoration: none; /* ボタンがaタグの場合も考慮 */
+    text-decoration: none; 
 }
 .action-button:hover {
     background: var(--primary-button-hover-bg);
@@ -307,7 +317,7 @@ body {
         var(--neumorph-shadow-distance) var(--neumorph-shadow-distance) var(--neumorph-shadow-blur) var(--neumorph-shadow-dark-color),
         calc(-1 * var(--neumorph-shadow-distance)) calc(-1 * var(--neumorph-shadow-distance)) var(--neumorph-shadow-blur) var(--neumorph-shadow-light-color);
     opacity: 0; 
-    transform: perspective(1000px) rotateY(-10deg) scale(0.95); /* 初期状態 */
+    transform: perspective(1000px) rotateY(-10deg) scale(0.95); 
     animation: resultCardAppear 0.8s var(--transition-timing-function) 0.2s forwards; 
 }
 
@@ -334,22 +344,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 500px; /* 3D回転用 */
+    perspective: 500px; 
 }
 
-.result-icon-container i { /* アイコン共通スタイル */
+.result-icon-container i { 
     font-size: clamp(3.8rem, 10vw, 4.8rem); 
     opacity: 0;
     transform: rotateY(90deg) scale(0.7);
     animation: iconFlipIn 0.7s var(--transition-timing-function) forwards;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
 }
-/* アイコンごとの色と遅延アニメーション */
-.result-icon-container.rank-s i { color: #fcc419; animation-delay: 0.6s; } /* Gold */
-.result-icon-container.rank-a i { color: #adb5bd; animation-delay: 0.6s; } /* Silver */
-.result-icon-container.rank-b i { color: #d68910; animation-delay: 0.6s; } /* Bronze */
-.result-icon-container.rank-c i { color: #36b37e; animation-delay: 0.6s; } /* Green */
-.result-icon-container.rank-d i { color: #ffab00; animation-delay: 0.6s; } /* Orange */
+.result-icon-container.rank-s i { color: #fcc419; animation-delay: 0.6s; } 
+.result-icon-container.rank-a i { color: #adb5bd; animation-delay: 0.6s; } 
+.result-icon-container.rank-b i { color: #d68910; animation-delay: 0.6s; } 
+.result-icon-container.rank-c i { color: #36b37e; animation-delay: 0.6s; } 
+.result-icon-container.rank-d i { color: #ffab00; animation-delay: 0.6s; } 
 .result-icon-container.rank-f i { color: var(--wrong-bg); animation-delay: 0.6s; } 
 
 @keyframes iconFlipIn {
@@ -394,7 +403,7 @@ body {
     font-weight: 800; 
     color: var(--text-primary);
     line-height: 1;
-    display: inline-block; /* アニメーションのため */
+    display: inline-block; 
 }
 .total-questions-final {
     font-family: var(--font-display); 
@@ -414,7 +423,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
     animation: textAppear 0.6s var(--transition-timing-function) 1.3s forwards;
-    font-weight: 500; /* M PLUS Rounded 1c Medium */
+    font-weight: 500; 
 }
 
 @keyframes textAppear {
@@ -437,8 +446,8 @@ body {
     padding: 25px 20px;
     font-size: 0.875rem;
     color: var(--text-secondary);
-    border-top: 1px solid rgba(163, 177, 198, 0.25); /* より薄い線 */
-    font-weight: 500; /* M PLUS Rounded 1c Medium */
+    border-top: 1px solid rgba(163, 177, 198, 0.25); 
+    font-weight: 500; 
 }
 
 /* エラーメッセージ用 */
@@ -457,19 +466,19 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* クリックイベントを透過 */
+    pointer-events: none; 
     z-index: 9999;
 }
 
 
 /* レスポンシブ対応 */
-@media (max-width: 768px) { /* タブレット */
-    html { font-size: 15px; } /* ベースフォントを少し小さく */
+@media (max-width: 768px) { 
+    html { font-size: 15px; } 
     body { padding: 15px; }
-    .app-container { max-width: 600px; } /* タブレットでの最大幅 */
+    .app-container { max-width: 600px; } 
     
     .choices-container {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* タブレットは3列程度 */
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
         gap: 12px;
     }
     .choices-container button {
@@ -479,28 +488,28 @@ body {
     }
 }
 
-@media (max-width: 480px) { /* スマホ */
-    html { font-size: 14px; } /* スマホではさらにベースフォントを調整 */
+@media (max-width: 480px) { 
+    html { font-size: 14px; } 
     body { padding: 0; } 
     .app-container {
         max-width: 100%;
         min-height: 100vh; 
         border-radius: 0; 
         box-shadow: none; 
-        padding: 5px; /* 画面端とのわずかな余白 */
+        padding: 5px; 
     }
      .quiz-header { padding: 20px 15px 10px; }
      .quiz-content { padding: 15px; }
      .result-display-area { padding: 20px 15px; }
 
     .choices-container {
-        grid-template-columns: repeat(2, 1fr); /* スマホでは2列固定 */
+        grid-template-columns: repeat(2, 1fr); 
         gap: 10px;
     }
     .choices-container button {
         font-size: 0.78rem; 
         padding: 12px 6px;
-        min-height: 50px; /* タップエリア確保 */
+        min-height: 50px; 
     }
     .result-card { padding: 25px 20px 35px; }
 }
