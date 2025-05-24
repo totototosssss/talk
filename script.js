@@ -206,23 +206,23 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (percentage >= 40) {
             rank = 'b';
             rankTitle = "うわさ好きの隣人";
-            message = "おっと、聞き耳を立ててました？ゴシップの香りがしますよ…もう少しで核心に迫れたのに！";
+            message = "おっと、聞き耳を立ててました？ゴシップの香りがしますよ…もう少しで核心に迫れたのに！残念...";
             iconClass = 'fas fa-magnifying-glass'; // Replaced fa-ear-listen
         } else if (percentage >= 20) {
             rank = 'c';
-            rankTitle = "迷宮のコメンテーター";
-            message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
-            iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
+            rankTitle = "迷宮の案内人";
+            message = "あと一歩でほんの少しだけ謎が解けそう…もう少し深掘りしてみては？";
+            iconClass = 'fas fa-compass';
         } else if (percentage >= 10) {
             rank = 'd';
-            rankTitle = "迷宮のコメンテーター";
-            message = "あれれ…？そのコメント、どの次元から…？大丈夫、きっと明日は違う電波を受信できますよ。たぶん。";
-            iconClass = 'fas fa-broadcast-tower'; // Replaced fa-satellite-dish, fa-broadcast-tower is free
-        } else { 
+            rankTitle = "ひらめきの卵";
+            message = "まだまだ赤ちゃんの段階ですが、その独創性が光ってます！次はさらに突拍子もない推論を期待してますよ。";
+            iconClass = 'fas fa-lightbulb';
+        } else {
             rank = 'e';
-            rankTitle = "能無し"; // User's title was "トークの卵"
+            rankTitle = "能無し";
             message = "やる気ないなら帰ってください";
-            iconClass = 'fas fa-egg'; // User's icon idea
+            iconClass = 'fas fa-egg';
         }
         
         resultIconContainer.className = `result-icon-container rank-${rank}`; 
