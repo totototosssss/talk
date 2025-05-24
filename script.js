@@ -210,18 +210,18 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass = 'fas fa-magnifying-glass'; // Replaced fa-ear-listen
         } else if (percentage >= 20) {
             rank = 'c';
-            rankTitle = "迷宮の案内人";
+            rankTitle = "ひらめきの卵";
             message = "あと一歩でほんの少しだけ謎が解けそう…もう少し深掘りしてみては？";
             iconClass = 'fas fa-compass';
         } else if (percentage >= 10) {
             rank = 'd';
-            rankTitle = "ひらめきの卵";
+            rankTitle = "赤ちゃん";
             message = "まだまだ赤ちゃんの段階ですが、その独創性が光ってます！次はさらに突拍子もない推論を期待してますよ。";
             iconClass = 'fas fa-lightbulb';
         } else {
             rank = 'e';
             rankTitle = "能無し";
-            message = "やる気ないなら帰ってください";
+            message = "やる気ないなら帰ってください。あなたは何をやってもうまくいかないでしょう。";
             iconClass = 'fas fa-egg';
         }
         
