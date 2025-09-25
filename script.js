@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (score === totalAnswered && totalAnswered > 0) { 
             rank = 'splus'; 
-            rankTitle = "中毒お疲れ🤡";
-            message = "全問正解…さては、トーク履歴と共に生きてますか？リアルの人間関係を構築したらどうですか？";
+            rankTitle = "中毒お疲れ";
+            message = "でも、素晴らしいです。";
             iconClass = 'fas fa-crown'; 
             if (typeof confetti === 'function') { 
                 setTimeout(() => { 
@@ -186,48 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else if (percentage >= 90) {
             rank = 's'; 
-            rankTitle = "真のトークマスター";
+            rankTitle = "トークマスター";
             message = "ほぼ完璧！あなたの前では、どんな些細な発言も見逃されませんね。まさに神業！";
             iconClass = 'fas fa-award'; // Replaced fa-dragon
-        } else if (percentage >= 80) {
-            rank = 'aplus'; 
-            rankTitle = "トークマスター"; // User's title, refined from "超絶技巧リスナー"
-            message = "お見事！その洞察力、まさに達人の域です！";
-            iconClass = 'fas fa-medal'; // Replaced fa-gem
-        } else if (percentage >= 70) {
-            rank = 'a';
-            rankTitle = "発言ソムリエ";
-            message = "お見事！的確な分析力、流石です。トークの機微を心得ていますね！";
-            iconClass = 'fas fa-star'; // Kept fa-star, or use fa-certificate
-        } else if (percentage >= 60) {
-            rank = 'bplus';
-            rankTitle = "事情通エージェント";
-            message = "かなり詳しいですね！重要情報を見抜くスパイの素質アリ…かも？";
-            iconClass = 'fas fa-user-secret'; // This is a Free icon
-        } else if (percentage >= 40) {
-            rank = 'b';
-            rankTitle = "見習い推論者";
-            message = "基本の観察はOK！文脈や語尾のクセをもっと読み解いて、誰の発言か鋭く見抜いてみてください。(真面目なアドバイス)";
-            iconClass = 'fas fa-search'; // Replaced fa-ear-listen
-        } else if (percentage >= 30) {
-            rank = 'b';
-            rankTitle = "うわさ好きの隣人";
-            message = "おっと、聞き耳を立ててました？ゴシップの香りがしますよ…もう少しで核心に迫れたのに！残念...";
-            iconClass = 'fas fa-magnifying-glass'; // Replaced fa-ear-listen
-        } else if (percentage >= 20) {
-            rank = 'c';
-            rankTitle = "ひらめきの卵";
-            message = "あと一歩でほんの少しだけ謎が解けそう…もう少し深掘りしてみては？";
-            iconClass = 'fas fa-compass';
-        } else if (percentage >= 10) {
-            rank = 'd';
-            rankTitle = "赤ちゃん";
-            message = "まだまだ赤ちゃんの段階ですが、その独創性が光ってます！次はさらに突拍子もない推論を期待してますよ。";
-            iconClass = 'fas fa-lightbulb';
         } else {
             rank = 'e';
-            rankTitle = "能無し";
-            message = "やる気ないなら帰ってください。あなたは何をやってもうまくいかないでしょう。";
+            rankTitle = "やる気なし";
+            message = "あなたは何をやってもうまくいかないかもしれません。";
             iconClass = 'fas fa-egg';
         }
         
